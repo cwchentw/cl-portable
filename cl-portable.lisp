@@ -18,7 +18,6 @@
 #-ccl (defconstant true t "true is an alias to t")
 
 (defun quit-with-status (&optional status)
-  (declare ((nullable integer) status))
   "Quit a program with optional exit status in a portable way."
   (when (null status)  ;; Fallback to default status
     (setq status 0))   ;;  when no status is assigned.
