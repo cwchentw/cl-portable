@@ -1,0 +1,44 @@
+#!/bin/sh
+# Place the script to the root path of ABCL.
+
+# Check whether Java is available.
+if ! command -v java -version 2>/dev/null 1>&2;
+then
+  echo "No Java on the system" >&2;
+  exit 1;
+fi
+
+# Locate the path of the script itself.
+root=$(dirname "$0");
+
+# Check whether ABCL is available.
+if ! [ -f "$root/abcl.jar" ];
+then
+  echo "No ABCL on the system" >&2;
+  exit 1;
+fi
+
+# Check whether ABCL contrib JAR is available.
+if [ -f "$root/abcl-contrib.jar" ];
+then
+  require_abcl_contrib="--eval \"(require :abcl-contrib)\"";
+else
+  require_abcl_contrib="";
+  echo "No ABCL contrib JAR on the system" >&2;
+
+  # ABCL contrib JAR is not a mandatory part of ABCL.
+  # Hence, we don't exit the wrapper.
+fi
+
+# Check whether some Lisp script is available.
+script=$1;
+
+if [ -f "$script" ];
+then
+  # Consume the first argument, which is $script.
+  shift;
+
+  java -jar "$root/abcl.jar" --noinform "$require_abcl_contrib" --load "$script" -- "$@";
+else
+  java -jar "$root/abcl.jar" "$require_abcl_contrib" "$@";
+fi

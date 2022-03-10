@@ -1,0 +1,61 @@
+#!/bin/sh
+
+# Function to get the real command
+#  of Clozure CL on a Unix host.
+ccl () {
+  if [ "Linux" = $(uname) ];
+  then
+    if [ "x86_64" = $(uname -m) ];
+    then
+      echo "lx86cl64";
+    else
+      echo "lx86cl";
+    fi
+  elif [ "Darwin" = $(uname) ];
+  then
+    if [ "x86_64" = $(uname -m) ];
+    then
+      echo "dx86cl64";
+    else
+      echo "dx86cl";
+    fi
+  elif [ "FreeBSD" = $(uname) ];  # Untested
+  then
+    if [ "x86_64" = $(uname -m) ];
+    then
+      echo "fx86cl64";
+    else
+      echo "fx86cl";
+    fi
+  elif [ "SunOS" = $(uname) ];  # Untested
+  then
+    if [ "x86_64" = $(uname -m) ];
+    then
+      echo "sx86cl64";
+    else
+      echo "sx86cl";
+    fi
+  else
+    echo "Unsupported platform" >&2;
+    exit 1;
+  fi
+}
+
+# Check whether Clozure CL is available.
+if ! command -v "$(ccl)" --version 2>/dev/null 1>&2;
+then
+  echo "No Clozure CL on the system" >&2;
+  exit 1;
+fi
+
+script="$1";
+
+if [ -f "$script" ];
+then
+  # Consume the first argument.
+  shift;
+
+  "$(ccl)" --load "$script" -- "$@";
+else
+  "$(ccl)" "$@";
+fi

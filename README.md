@@ -23,7 +23,13 @@ $ git clone https://github.com/cwchentw/cl-portable.git
 
 ## Usage
 
+### Library
+
 See [examples](/examples).
+
+### Wrappers
+
+Copy whatever you need from [scripts](/scripts) to a local machine.
 
 ## Copyright
 

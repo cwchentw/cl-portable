@@ -1,0 +1,20 @@
+#!/bin/sh
+
+# Check whether SBCL is available.
+if ! command -v sbcl --version 2>/dev/null 1>&2;
+then
+  echo "No SBCL on the system" >&2;
+  exit 1;
+fi
+
+script=$1;
+
+if [ -f "$script" ];
+then
+  # Consume the first argument.
+  shift;
+
+  sbcl --noinform --eval "(setf sb-impl::*default-external-format* :UTF-8)" --script "$script" "$@";
+else
+  sbcl "$@";
+fi
