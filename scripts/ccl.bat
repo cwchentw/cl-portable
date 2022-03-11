@@ -42,7 +42,9 @@ if not "x%arg%" == "x" (
     goto collect_args
 )
 
-%ccl% --load %script% -- %args%
+%ccl% ^
+    --eval "(load (concatenate 'string (ccl:getenv \"USERPROFILE\") \"\\\\\" \"ccl-init.lisp\"))" ^
+    --load %script% -- %args%
 
 rem Exit the program with inherited return value.
 exit /B %ERRORLEVEL%
