@@ -18,7 +18,10 @@ goto interactive_mode
 
 :batch_mode
 rem %script% is the first argument. Hence, there is no need to shift first argument.
-sbcl --noinform --eval "(setf sb-impl::*default-external-format* :UTF-8)" --script %*
+sbcl --noinform ^
+  --eval "(setf sb-impl::*default-external-format* :UTF-8)" ^
+  --eval "(load (concatenate 'string (sb-ext:posix-getenv \"USERPROFILE\") \"\\\\\" \".sbclrc\"))" ^
+  --script %*
 
 rem Exit the program with inherited return value.
 exit /B %ERRORLEVEL%
