@@ -14,7 +14,10 @@ then
   # Consume the first argument.
   shift;
 
-  sbcl --noinform --eval "(setf sb-impl::*default-external-format* :UTF-8)" --script "$script" "$@";
+  sbcl --noinform \
+  --eval "(setf sb-impl::*default-external-format* :UTF-8)" \
+  --eval "(load (concatenate 'string (sb-ext:posix-getenv \"HOME\") \"/\" \".sbclrc\"))" \
+  --script "$script" "$@";
 else
   sbcl "$@";
 fi

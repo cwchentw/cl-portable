@@ -55,7 +55,9 @@ then
   # Consume the first argument.
   shift;
 
-  "$(ccl)" --load "$script" -- "$@";
+  "$(ccl)" \
+  --eval "(load (concatenate 'string (ccl:getenv \"HOME\") \"/\" \".ccl-init.lisp\"))" \
+  --load "$script" -- "$@";
 else
   "$(ccl)" "$@";
 fi
