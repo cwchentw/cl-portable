@@ -69,9 +69,10 @@
   "Processed command-line argument(s) in scripting mode."
   (let* ((args (argument-vector))
          #+sbcl   (args (rest args))
-         #+ccl    (args (rest (rest (rest (rest args)))))
+         #+ccl    (args (rest (rest (rest (rest (rest (rest args)))))))
+         #+abcl   (args (rest args))
          #+ecl    (args (rest (rest (rest args))))
-         ;; In ABCL and CLISP, no loading script in argument(s).
+         ;; In CLISP, no loading script in argument(s).
         )
     (cons *load-truename* args)))
 

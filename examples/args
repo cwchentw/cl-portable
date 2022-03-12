@@ -1,0 +1,129 @@
+#!/bin/sh
+
+usage () {
+  local stream=$1;
+
+  if [ -z "$stream" ];
+  then
+    stream="1";
+  fi
+
+  echo "Usage: $0 [lisp] [param] ..." >&"$stream";
+  echo "" >&"$stream";
+  echo "Valid Common Lisp implementation:" >&"$stream";
+  echo "  sbcl" >&"$stream";
+  echo "  ccl" >&"$stream";
+  echo "  clisp" >&"$stream";
+  echo "  ecl" >&"$stream";
+  echo "  abcl" >&"$stream";
+}
+
+# Constants
+SBCL="sbcl"
+CCL="ccl"
+CLISP="clisp"
+ECL="ecl"
+ABCL="abcl"
+
+lisp=$1;
+
+if [ "-h" = "$lisp" ] || [ "--help" = "$lisp" ];
+then
+  echo "Use \`$0 usage\` or \`$0 help\` to show help info";
+  exit;
+fi
+
+if [ "usage" = "$lisp" ] || [ "help" = "$lisp" ];
+then
+  usage;
+  exit;
+fi
+
+case $lisp in
+  "$SBCL")
+    shift;
+    ;;
+  "$CCL")
+    shift;
+    ;;
+  "$CLISP")
+    shift;
+    ;;
+  "$ECL")
+    shift;
+    ;;
+  "$ABCL")
+    shift;
+    ;;
+  *)
+    echo "Unsupported Common Lisp implementation" >&2;
+    usage 2;
+    exit 1;
+esac
+
+# Locate the path of the script itself.
+root=$(dirname "$0");
+
+if [ "$SBCL" = "$lisp" ];
+then
+  # Check whether SBCL and its wrapper exist.
+  if ! command -v sbclrun 2>/dev/null 1>&2;
+  then
+    echo "No SBCL or its wrapper on the system" >&2;
+    exit 1;
+  fi
+
+  # Invoke SBCL wrapper.
+  sbclrun "$root/args.lisp" "$@";
+elif [ "$CCL" = "$lisp" ];
+then
+  # Check whether Clozure CL and its wrapper exist.
+  if ! command -v ccl 2>/dev/null 1>&2;
+  then
+    echo "No Clozure CL or its wrapper on the system" >&2;
+    exit 1;
+  fi
+
+  # `ccl` is a Clozure CL wrapper.
+  # Hence, there is no need to add `--` here.
+  ccl "$root/args.lisp" "$@";
+elif [ "$CLISP" = "$lisp" ];
+then
+  # Check whether CLISP exists.
+  if ! command -v clisp --version 2>/dev/null 1>&2;
+  then
+    echo "No CLISP on the system" >&2;
+    exit 1;
+  fi
+
+  # Invoke CLISP directly.
+  clisp "$root/args.lisp" "$@";
+elif [ "$ECL" = "$lisp" ];
+then
+  # Check whether ECL exists.
+  if ! command -v ecl --help 2>/dev/null 1>&2;
+  then
+    echo "No ECL on the system" >&2;
+    exit 1;
+  fi
+
+  # Invoke ECL directly.
+  if [ "Darwin" = $(uname) ];
+  then
+    ecl --shell "$root/args.lisp" "$@";
+  else
+    ecl -shell "$root/args.lisp" "$@";
+  fi
+elif [ "$ABCL" = "$lisp" ];
+then
+  # Check whether ABCL and its wrapper exist.
+  if ! command -v abcl 2>/dev/null 1>&2;
+  then
+    echo "No ABCL or its wrapper on the system" >&2;
+    exit 1;
+  fi
+
+  # `abcl` is an Armed Bear CL wrapper.
+  # Hence, there is no need to add `--` here.
+  abcl "$root/args.lisp" "$@";
+fi
