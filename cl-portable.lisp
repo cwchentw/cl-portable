@@ -128,9 +128,14 @@
   )
 
 (defun pwd ()
-  (pathname
-    (let ((out (make-string-output-stream)))
-      (if (equal (platform) :windows)
-          (run-program "C:\\Windows\\System32\\cmd.exe" '("/c" "cd") :output out)
-          (run-program "pwd" '() :output out))
-      (get-output-stream-string out))))
+  #+sbcl (pathname (sb-posix:getcwd))
+  #+ccl (pathname (ccl:current-directory))
+  #-(or sbcl ccl)
+    (pathname
+      (string-trim '(#\Newline)
+        (let ((out (make-string-output-stream)))
+          (if (equal (platform) :windows)
+              (run-program "C:\\Windows\\System32\\cmd.exe" '("/c" "cd") :output out)
+              (run-program "pwd" '() :output out))
+          (get-output-stream-string out))))
+  )
