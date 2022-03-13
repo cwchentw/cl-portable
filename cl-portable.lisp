@@ -127,8 +127,9 @@
   )
 
 (defun pwd ()
-  (let ((out (make-string-output-stream)))
-    (if (equal (platform) :windows)
-        (run-program "C:\\Windows\\System32\\cmd.exe" '("/c" "cd") :output out)
-        (run-program "pwd" :output out))
-    (get-output-stream-string out)))
+  (pathname
+    (let ((out (make-string-output-stream)))
+      (if (equal (platform) :windows)
+          (run-program "C:\\Windows\\System32\\cmd.exe" '("/c" "cd") :output out)
+          (run-program "pwd" :output out))
+      (get-output-stream-string out))))
