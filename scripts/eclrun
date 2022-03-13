@@ -1,0 +1,23 @@
+#!/bin/sh
+
+# Check whether ECL is available.
+if ! command -v ecl --version 2>/dev/null 1>&2;
+then
+  echo "No ECL on the system" >&2;
+  exit 1;
+fi
+
+script="$1";
+
+if [ -f "$script" ];
+then
+  # Consume the first argument.
+  shift;
+
+  ecl \
+  --eval "(load (concatenate 'string (ext:getenv \"HOME\") \"/\" \".eclrc\"))" \
+  --encoding ":utf-8" \
+  --shell "$script" "$@";
+else
+  ecl "$@";
+fi
