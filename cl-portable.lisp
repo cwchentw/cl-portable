@@ -125,7 +125,7 @@
   ;;  should be a string, a symbol or a character
   #+clisp (ext:run-program cmd :arguments args :input input :output output)
   #+ecl (ext:run-program cmd args :input input :output output)
-  #+abcl (ext:run-program cmd args :input input :output output)
+  #+abcl (run-program cmd args :input input :output output)
   )
 
 (defun pwd ()
