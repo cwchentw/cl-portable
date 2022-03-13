@@ -10,7 +10,8 @@
            :compile-program
            :argument-vector
            :argument-script
-           :platform))
+           :platform
+           :getenv))
 
 (in-package :cl-portable)
 
@@ -110,3 +111,11 @@
                  (t (error "Unknown platform")))
   #-(or sbcl ccl clisp ecl abcl)
     (error "Unsupported Common Lisp implementation"))
+
+(defun getenv (var &optional default)
+  (or #+sbcl (sb-ext:posix-getenv var)
+      #+ccl (ccl:getenv var)
+      #+clisp (ext:getenv var)
+      #+ecl (si:getenv var)
+      #+abcl (ext:getenv var)
+    default))
