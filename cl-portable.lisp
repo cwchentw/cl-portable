@@ -109,6 +109,7 @@
     (error "Unsupported Common Lisp implementation"))
 
 (defun env (var &optional default)
+  "Get an environment variable in a portable way"
   (or #+sbcl (sb-ext:posix-getenv var)
       #+ccl (ccl:getenv var)
       #+clisp (ext:getenv var)
@@ -128,6 +129,7 @@
   )
 
 (defun pwd ()
+  "Get current working directory in a portable way"
   #+sbcl (pathname (sb-posix:getcwd))
   #+ccl (pathname (ccl:current-directory))
   #+clisp (#+lisp=cl ext:default-directory #-lisp=cl lisp:default-directory)
