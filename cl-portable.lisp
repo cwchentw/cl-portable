@@ -133,6 +133,7 @@
   #+sbcl (pathname (concatenate 'string (sb-posix:getcwd) "/"))
   #+ccl (pathname (ccl:current-directory))
   #+clisp (#+lisp=cl ext:default-directory #-lisp=cl lisp:default-directory)
+  ;; FIXME: Add trailing slash.
   #-(or sbcl ccl clisp)
     (pathname
       (string-trim '(#\Newline)
