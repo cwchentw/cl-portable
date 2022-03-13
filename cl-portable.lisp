@@ -130,7 +130,7 @@
 
 (defun pwd ()
   "Get current working directory in a portable way"
-  #+sbcl (pathname (sb-posix:getcwd))
+  #+sbcl (pathname (concatenate 'string (sb-posix:getcwd) "/"))
   #+ccl (pathname (ccl:current-directory))
   #+clisp (#+lisp=cl ext:default-directory #-lisp=cl lisp:default-directory)
   #-(or sbcl ccl clisp)
