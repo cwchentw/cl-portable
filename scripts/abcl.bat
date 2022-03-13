@@ -52,11 +52,11 @@ if not "x%arg%" == "x" (
     goto collect_args
 )
 
-java -jar %rootdir%abcl.jar --noinform %require_abcl_contrib% --load %script% -- %args%
+java -Dfile.encoding=UTF-8 -jar %rootdir%abcl.jar --noinform %require_abcl_contrib% --load %script% -- %args%
 rem %script% is the first argument. Hence, there is no need to shift first argument.
 
 rem Exit the program with inherited return value.
 exit /B %ERRORLEVEL%
 
 :interactive_mode
-java -jar %rootdir%abcl.jar %require_abcl_contrib% %*
+java -Dfile.encoding=UTF-8 -jar %rootdir%abcl.jar %require_abcl_contrib% %*
