@@ -118,9 +118,10 @@
 
 ;; Not exported.
 (defun run-program (cmd args &key (input nil) (output nil))
-  #+sbcl (sb-ext:run-program cmd args :input input :output output)
+  #+sbcl (sb-ext:run-program cmd args :search "/bin/sh" :input input :output output)
   #+ccl (ccl:run-program cmd args :input input :output output)
-  ;; FIXME: Wrong input and wrong output.
+  ;; FIXME: argument #<OUTPUT STRING-OUTPUT-STREAM>
+  ;;  should be a string, a symbol or a character
   #+clisp (ext:run-program cmd :arguments args :input input :output output)
   #+ecl (ext:run-program cmd args :input input :output output)
   #+abcl (ext:run-program cmd args :input input :output output)
@@ -131,5 +132,5 @@
     (let ((out (make-string-output-stream)))
       (if (equal (platform) :windows)
           (run-program "C:\\Windows\\System32\\cmd.exe" '("/c" "cd") :output out)
-          (run-program "pwd" :output out))
+          (run-program "pwd" '() :output out))
       (get-output-stream-string out))))
