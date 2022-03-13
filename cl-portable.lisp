@@ -4,19 +4,14 @@
   (:use :cl)
   (:documentation
     "Portable Common Lisp Code")
-  (:export #-ccl :false
-           #-ccl :true
-           :quit-with-status
+  (:export :quit-with-status
            :compile-program
            :argument-vector
            :argument-script
            :platform
-           :getenv))
+           :env))
 
 (in-package :cl-portable)
-
-#-ccl (defconstant false nil "false is an alias to nil")
-#-ccl (defconstant true t "true is an alias to t")
 
 (defun quit-with-status (&optional status)
   "Quit a program with optional exit status in a portable way."
@@ -112,7 +107,7 @@
   #-(or sbcl ccl clisp ecl abcl)
     (error "Unsupported Common Lisp implementation"))
 
-(defun getenv (var &optional default)
+(defun env (var &optional default)
   (or #+sbcl (sb-ext:posix-getenv var)
       #+ccl (ccl:getenv var)
       #+clisp (ext:getenv var)
