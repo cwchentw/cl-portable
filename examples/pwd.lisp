@@ -7,7 +7,7 @@
 
 ;; Simulate a main function.
 (defun main ()
-  (princ (pwd))
+  (write-line (princ-to-string (pwd)))
   #+ccl (finish-output)
   (quit-with-status 0))
 
