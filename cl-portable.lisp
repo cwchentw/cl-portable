@@ -9,7 +9,8 @@
            :argument-vector
            :argument-script
            :platform
-           :env))
+           :env
+           :pwd))
 
 (in-package :cl-portable)
 
@@ -114,3 +115,20 @@
       #+ecl (si:getenv var)
       #+abcl (ext:getenv var)
     default))
+
+;; Not exported.
+(defun run-program (cmd args &key (input nil) (output nil))
+  #+sbcl (sb-ext:run-program cmd args :input input :output output)
+  #+ccl (ccl:run-program cmd args :input input :output output)
+  ;; FIXME: Wrong input and wrong output.
+  #+clisp (ext:run-program cmd :arguments args :input input :output output)
+  #+ecl (ext:run-program cmd args :input input :output output)
+  #+abcl (ext:run-program cmd args :input input :output output)
+  )
+
+(defun pwd ()
+  (let ((out (make-string-output-stream)))
+    (if (equal (platform) :windows)
+        (run-program "C:\\Windows\\System32\\cmd.exe" '("/c" "cd") :output out)
+        (run-program "pwd" :output out))
+    (get-output-stream-string out)))
