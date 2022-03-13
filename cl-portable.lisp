@@ -130,7 +130,8 @@
 (defun pwd ()
   #+sbcl (pathname (sb-posix:getcwd))
   #+ccl (pathname (ccl:current-directory))
-  #-(or sbcl ccl)
+  #+clisp (#+lisp=cl ext:default-directory #-lisp=cl lisp:default-directory)
+  #-(or sbcl ccl clisp)
     (pathname
       (string-trim '(#\Newline)
         (let ((out (make-string-output-stream)))
