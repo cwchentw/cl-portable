@@ -132,14 +132,8 @@
   "Get current working directory in a portable way"
   #+sbcl (pathname (concatenate 'string (sb-posix:getcwd) "/"))
   #+ccl (pathname (ccl:current-directory))
+  ;; FIXME: Change slash and remove trailing newline.
   #+clisp (#+lisp=cl ext:default-directory #-lisp=cl lisp:default-directory)
-  ;; FIXME: Add trailing slash.
   #-(or sbcl ccl clisp)
-    (pathname
-      (string-trim '(#\Newline)
-        (let ((out (make-string-output-stream)))
-          (if (equal (platform) :windows)
-              (run-program "C:\\Windows\\System32\\cmd.exe" '("/c" "cd") :output out)
-              (run-program "pwd" '() :output out))
-          (get-output-stream-string out))))
+    (pathname (string-trim "." (namestring (truename "."))))
   )
