@@ -1,0 +1,20 @@
+#!/bin/sh
+
+# Check whether CLISP is available.
+if ! command -v clisp 2>/dev/null 1>&2;
+then
+    echo "No CLISP on the system" >&2;
+    exit 1;
+fi
+
+script="$1";
+
+if [ -f "$script" ];
+then
+  # Consume the first argument.
+  shift;
+
+  clisp -i "$HOME/.clisprc.lisp" "$script" "$@";
+else
+  clisp "$@";
+fi

@@ -90,14 +90,14 @@ then
 elif [ "$CLISP" = "$lisp" ];
 then
   # Check whether CLISP exists.
-  if ! command -v clisp --version 2>/dev/null 1>&2;
+  if ! command -v clisprun --version 2>/dev/null 1>&2;
   then
-    echo "No CLISP on the system" >&2;
+    echo "No CLISP or its wrapper on the system" >&2;
     exit 1;
   fi
 
   # Invoke CLISP directly.
-  clisp "$root/args.lisp" "$@";
+  clisprun "$root/args.lisp" "$@";
 elif [ "$ECL" = "$lisp" ];
 then
   # Check whether ECL exists.
