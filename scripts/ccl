@@ -13,7 +13,7 @@ ccl () {
     fi
   elif [ "Darwin" = $(uname) ];
   then
-    if [ "x86_64" = $(uname -m) ];
+    if [ "x86_64" = $(uname -m) -o "arm64" = $(uname -m) ];
     then
       echo "dx86cl64";
     else
