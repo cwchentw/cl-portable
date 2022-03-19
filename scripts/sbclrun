@@ -7,6 +7,14 @@ then
   exit 1;
 fi
 
+# Check whether rlwrap is available.
+if command -v rlwrap --version 2>/dev/null 1>&2;
+then
+  RUN_RLWRAP=rlwrap;
+else
+  RUN_RLWRAP=;
+fi
+
 script=$1;
 
 if [ -f "$script" ];
@@ -19,5 +27,5 @@ then
   --eval "(load (concatenate 'string (sb-ext:posix-getenv \"HOME\") \"/\" \".sbclrc\"))" \
   --script "$script" "$@";
 else
-  sbcl "$@";
+  $RUN_RLWRAP sbcl "$@";
 fi
