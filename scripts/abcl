@@ -30,6 +30,14 @@ else
   # Hence, we don't exit the wrapper.
 fi
 
+# Check whether rlwrap is available.
+if command -v rlwrap --version 2>/dev/null 1>&2;
+then
+  RUN_RLWRAP=rlwrap;
+else
+  RUN_RLWRAP=;
+fi
+
 # Check whether some Lisp script is available.
 script=$1;
 
@@ -40,5 +48,5 @@ then
 
   java -jar "$root/abcl.jar" --noinform "$require_abcl_contrib" --load "$script" -- "$@";
 else
-  java -jar "$root/abcl.jar" "$require_abcl_contrib" "$@";
+  $RUN_RLWRAP java -jar "$root/abcl.jar" "$require_abcl_contrib" "$@";
 fi
