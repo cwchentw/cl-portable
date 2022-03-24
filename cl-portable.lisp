@@ -33,12 +33,17 @@
   #-(or sbcl ccl clisp ecl abcl)
     (cl-user::quit status))
 
-(defun compile-program (program main)
+(defun compile-program (program main &key type)
   (declare (string program) (function main))
   "Compile a program to an executable. Support SBCL, CCL and CLISP."
-  #+sbcl  (sb-ext:save-lisp-and-die program
-                                    :toplevel main
-                                    :executable t)
+  #+sbcl  (let ((_type (if (cl:null type) :console type)))
+            (sb-ext:save-lisp-and-die program
+                                      :toplevel main
+                                      :executable t
+                                      :application-type _type))
+  #+(not sbcl)
+    (when (not (null type))
+      (write-line "Application type is not supported" *error-output*))
   #+ccl   (ccl:save-application program
                                 :toplevel-function main
                                 :prepend-kernel t)
