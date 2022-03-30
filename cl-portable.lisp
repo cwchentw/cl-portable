@@ -36,11 +36,19 @@
 (defun compile-program (program main &key type)
   (declare (string program) (function main))
   "Compile a program to an executable. Support SBCL, CCL and CLISP."
-  #+sbcl  (let ((_type (if (cl:null type) :console type)))
-            (sb-ext:save-lisp-and-die program
-                                      :toplevel main
-                                      :executable t
-                                      :application-type _type))
+  #+sbcl  (if (equal :windows (platform))
+              (let ((_type (if (cl:null type) :console type)))
+                (sb-ext:save-lisp-and-die program
+                                          :toplevel main
+                                          :executable t
+                                          :application-type _type))
+              (sb-ext:save-lisp-and-die program
+                                        :toplevel main
+                                        :executable t))
+  #+sbcl
+    (when (and (not (null type))
+               (not (equal :windows (platform))))
+      (write-line "Application type is not supported" *error-output*))
   #+(not sbcl)
     (when (not (null type))
       (write-line "Application type is not supported" *error-output*))
