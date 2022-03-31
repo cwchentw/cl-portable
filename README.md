@@ -25,7 +25,25 @@ $ git clone https://github.com/cwchentw/cl-portable.git
 
 ## Use the Library
 
-See [examples](/examples).
+### Compiler
+
+* `compile-program`: compile a Common Lisp script in a portable way ([ex](/examples/compile-program.lisp))
+
+### Console
+
+* `argument-vector`: unprocessed command-line argument(s) as a list ([Windows](/examples/args.bat), [Unix](/examples/args))
+* `argument-script`: command-line argument(s) as a list in scripting mode ([Windows](/examples/args.bat), [Unix](/examples/args))
+* `pwd`: present working directory ([ex](/examples/pwd.lisp))
+
+### System
+
+* `env`: to get an environment variable ([ex](/examples/env.lisp))
+* `platform`: to detect the underlying OS in a portable way
+  * `:windows`: a Windows family OS
+  * `:macos`: macOS
+  * `:linux`: GNU/Linux
+  * `:unix`: a Unix other than macOS and GUN/Linux
+* `quit-with-status`: to `quit` in a portable way, returning an exit status code
 
 ## Use the Wrappers
 
