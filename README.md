@@ -43,7 +43,7 @@ $ git clone https://github.com/cwchentw/cl-portable.git
   * `:macos`: macOS
   * `:linux`: GNU/Linux
   * `:unix`: a Unix other than macOS and GUN/Linux
-* `quit-with-status`: to `quit` in a portable way, returning an exit status code
+* `quit-with-status`: to `quit` in a portable way, returning an exit status code ([ex](/examples/helloworld-cjk.lisp))
 
 ## Use the Wrappers
 
