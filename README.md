@@ -72,7 +72,7 @@ For Unix users:
 * Install OpenJDK 17
 * Download a binary tarball of ABCL
 * Add the root path of *abcl* to **PATH**
-* Copy the wrapper to the root of *abcl* ([Windows](/scripts/abcl.bat), [Unix](/scripts/abcl))
+* Copy the wrapper to the root path of *abcl* ([Windows](/scripts/abcl.bat), [Unix](/scripts/abcl))
 
 ## Copyright
 
