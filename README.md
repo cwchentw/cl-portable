@@ -23,15 +23,56 @@ $ cd path/to/quicklisp/local-projects
 $ git clone https://github.com/cwchentw/cl-portable.git
 ```
 
-## Usage
-
-### Library
+## Use the Library
 
 See [examples](/examples).
 
-### Wrappers
+## Use the Wrappers
 
-Copy whatever you need from [scripts](/scripts) to a local machine.
+### SBCL
+
+* Install SBCL
+* Copy the wrapper to a valid path of **PATH** ([Windows](/scripts/sbclrun.bat), [Unix](/scripts/sbclrun))
+
+### Clozure CL
+
+* Download a binary tarball of Clozure CL
+* Add the root path of *ccl* to **PATH**
+* Copy the wrapper to the root path of *ccl* ([Windows](/scripts/ccl.bat), [Unix](/scripts/ccl))
+
+### CLISP
+
+For Windows users:
+
+* Download a binary tarball of CLISP
+* Add the root path of *clisp* to **PATH**
+* Copy [the wrapper](/scripts/clisprun.bat) to the root path of *clisp*
+
+For Unix users:
+
+* Install CLISP
+* Copy [the wrapper](/scripts/clisprun) to a valid path of **PATH**
+
+### ECL
+
+For Windows users:
+
+* Download a source tarball of ECL
+* Compile ECL with MSVC
+* Add *path\to\ecl\msvc* to **PATH**
+* Copy [the wrapper](/scripts/eclrun.bat) to *path\to\ecl\msvc*
+
+For Unix users:
+
+* Install ECL
+* Copy [the wrapper](/scripts/eclrun) to a valid path of **PATH**
+
+### ABCL
+
+* Install OpenJDK 17
+* Download a binary tarball of ABCL
+* Add the root path of *abcl* to **PATH**
+* Copy the wrapper to the root of *abcl* ([Windows](/scripts/abcl.bat), [Unix](/scripts/abcl))
 
 ## Copyright
 
