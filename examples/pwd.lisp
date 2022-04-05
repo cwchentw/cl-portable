@@ -3,12 +3,13 @@
 ;; Alternatively, load a local cl-portable.lisp script.
 #-quicklisp (load "cl-portable.lisp" :print nil)
 
-(use-package 'cl-portable)
+(import 'cl-portable::pwd)
+(import 'cl-portable::quit-with-status)
 
 ;; Simulate a main function.
 (defun main ()
   (write-line (princ-to-string (pwd)))
-  #+ccl (finish-output)
+  #+ccl (finish-output)  ; Trick for Clozure CL.
   (quit-with-status 0))
 
 ;; Load the main function.
