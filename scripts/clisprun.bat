@@ -10,7 +10,7 @@ if exist %rootdir%\clisp.exe (
     set RUN_CLISP=clisp
 )
 
-rem Check whether ECL is available.
+rem Check whether CLISP is available.
 "%RUN_CLISP%" --version 2>nul 1>&2 || (
     echo No CLISP on the system >&2
     exit /B 1
@@ -42,10 +42,10 @@ if not "x%arg%" == "x" (
     goto collect_args
 )
 
-%rootdir%\clisp.exe -i "%USERPROFILE%/.clisprc.lisp" %script% %args%
+"%RUN_CLISP%" -i "%USERPROFILE%/.clisprc.lisp" %script% %args%
 
 rem Exit the program with inherited return value.
 exit /B %ERRORLEVEL%
 
 :interactive_mode
-%rootdir%\clisp.exe %*
+"%RUN_CLISP%" %*
