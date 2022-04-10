@@ -3,8 +3,15 @@
 rem Get the root path of current batch script.
 set rootdir=%~dp0
 
+rem Detect the path of CLISP executable.
+if exist %rootdir%\clisp.exe (
+    set RUN_CLISP=%rootdir%\clisp.exe
+) else (
+    set RUN_CLISP=clisp
+)
+
 rem Check whether ECL is available.
-%rootdir%\clisp.exe --version 2>nul 1>&2 || (
+"%RUN_CLISP%" --version 2>nul 1>&2 || (
     echo No CLISP on the system >&2
     exit /B 1
 )
